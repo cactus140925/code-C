@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdbool.h>
+#include<stdlib.h>
+#define MAX 101
+
+typedef struct {
+    int data[MAX];
+    int front;
+    int rear;
+} Queue;
+
+Queue* capphatds() {
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    q->front = -1;
+    q->rear = -1;
+    return q;
+}
+
+bool isempty(Queue* queue) {
+    if (queue->front == -1)
+        return true;
+    else
+        return false;
+}
+
+bool isfull(Queue* queue) {
+    if (queue->rear == MAX - 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void enqueue(Queue* queue, int value) {
+    if (isfull(queue)) {
+        return;
+    } else {
+        if (queue->front == -1) {
+            queue->front = 0;
+        }
+        queue->rear++;
+        queue->data[queue->rear] = value;
+    }
+}
+
+int dequeue(Queue* queue) {
+    if (isempty(queue)) {
+        return -1;
+    } else {
+        int tmp = queue->data[queue->front];
+        queue->front++;
+        if (queue->front > queue->rear) {
+            queue->front = -1;
+            queue->rear = -1;
+        }
+        printf("%d ", tmp);
+        return tmp;
+    }
+}
+
+void display(Queue* queue) {
+    for (int i = queue->rear; i >= queue->front; i--) {
+        printf("%d ", queue->data[i]);
+    }
+}
+
+int main() {
+    Queue* queue = capphatds();
+    char d;
+    do{
+        int x;
+        scanf("%d", &x);
+        enqueue(queue, x);
+        d=getchar();
+    }while(d!='\n');
+    int gan=queue->rear+1;
+	   display(queue);
+    return 0;
+}
